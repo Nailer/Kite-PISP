@@ -55,3 +55,21 @@ export function x402Gate(price, description) {
     if (!xPayment) {
       return res.status(402).json(build402Response(req, price, description));
     }
+    // Payment header found — try to settle it
+    try {
+      const settlement = await settlePayment(xPayment);
+      if (!settlement.success) {
+        return res.status(402).json({
+          error: "Payment validation failed",
+          details: settlement.data,
+        });
+      }
+      // Payment confirmed — attach receipt to request and proceed
+      req.paymentReceipt = settlement.data;
+      next();
+    } catch (err) {
+      console.error("Settlement error:", err);
+      return res.status(500).json({ error: "Payment settlement failed" });
+    }
+  };
+}
