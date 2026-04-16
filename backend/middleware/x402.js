@@ -8,3 +8,7 @@ const MERCHANT_WALLET = process.env.MERCHANT_WALLET;
 const USDC_CONTRACT = process.env.USDC_CONTRACT;
 const MERCHANT_NAME = process.env.MERCHANT_NAME;
 
+function build402Response(req, price, description) {
+  const resource = `https://${req.headers.host}${req.path}`;
+  return {
+    error: "X-PAYMENT header is required",
