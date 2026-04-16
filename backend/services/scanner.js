@@ -27,3 +27,13 @@ export function scanContract(contractAddress) {
     scannedAt: new Date().toISOString(),
   };
 }
+
+export function scoreContract(contractAddress) {
+  const result = scanContract(contractAddress);
+  return {
+    contractAddress,
+    score: result.riskScore,
+    grade: result.riskScore >= 80 ? "A" : result.riskScore >= 60 ? "B" : result.riskScore >= 40 ? "C" : "F",
+    summary: result.verdict,
+  };
+}
