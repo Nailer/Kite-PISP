@@ -34,3 +34,11 @@ function build402Response(req, price, description) {
     x402Version: 1,
   };
 }
+
+// This calls Pieverse to actually settle the payment on-chain
+async function settlePayment(xPaymentHeader) {
+  const response = await fetch(`${FACILITATOR_URL}/v2/settle`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ payment: xPaymentHeader }),
+});
