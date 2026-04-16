@@ -31,3 +31,6 @@ function build402Response(req, price, description) {
         merchantName: MERCHANT_NAME,
       },
     ],
+    x402Version: 1,
+  };
+}
