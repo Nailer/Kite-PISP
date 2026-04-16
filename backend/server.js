@@ -17,3 +17,20 @@ const PORT = process.env.PORT || 8099;
 app.get("/health", (req, res) => {
   res.json({ status: "BuzzShield is live", chain: "kite-testnet", chainId: 2368 });
 });
+
+// PAID ENDPOINT 1: Full security scan — costs $0.02 (in wei: 20000000000000000)
+app.post(
+  "/shield",
+  x402Gate("20000000000000000", "BuzzShield - Full smart contract security scan"),
+  (req, res) => {
+    const { contractAddress } = req.body;
+    if (!contractAddress) {
+      return res.status(400).json({ error: "contractAddress is required" });
+    }
+    const result = scanContract(contractAddress);
+    res.json({
+      ...result,
+      paymentReceipt: req.paymentReceipt,
+    });
+  }
+);
