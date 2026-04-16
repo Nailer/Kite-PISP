@@ -34,3 +34,20 @@ app.post(
     });
   }
 );
+
+// PAID ENDPOINT 2: Quick risk score — costs $0.01
+app.get(
+  "/score",
+  x402Gate("10000000000000000", "BuzzShield - Quick risk score check"),
+  (req, res) => {
+    const { address } = req.query;
+    if (!address) {
+      return res.status(400).json({ error: "address query param is required" });
+    }
+    const result = scoreContract(address);
+    res.json({
+      ...result,
+      paymentReceipt: req.paymentReceipt,
+    });
+  }
+);
