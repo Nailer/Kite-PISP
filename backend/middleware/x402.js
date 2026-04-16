@@ -12,3 +12,22 @@ function build402Response(req, price, description) {
   const resource = `https://${req.headers.host}${req.path}`;
   return {
     error: "X-PAYMENT header is required",
+    accepts: [
+      {
+        scheme: "gokite-aa",
+        network: "kite-testnet",
+        maxAmountRequired: price, // in wei, so $0.02 = "20000000000000000"
+        resource,
+        description,
+        mimeType: "application/json",
+        outputSchema: {
+          input: { discoverable: true, method: req.method, type: "http" },
+          output: { type: "object" },
+        },
+        payTo: MERCHANT_WALLET,
+        maxTimeoutSeconds: 300,
+        asset: USDC_CONTRACT,
+        extra: null,
+        merchantName: MERCHANT_NAME,
+      },
+    ],
