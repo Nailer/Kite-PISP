@@ -46,3 +46,12 @@ async function settlePayment(xPaymentHeader) {
   return { success: response.ok, data: result };
 }
 
+// The actual middleware factory — call it like: x402Gate("20000000000000000", "Scan a contract")
+export function x402Gate(price, description) {
+  return async (req, res, next) => {
+    const xPayment = req.headers["x-payment"];
+
+    // No payment header? Send the 402 challenge
+    if (!xPayment) {
+      return res.status(402).json(build402Response(req, price, description));
+    }
