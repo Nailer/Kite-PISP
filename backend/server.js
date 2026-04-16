@@ -51,3 +51,9 @@ app.get(
     });
   }
 );
+
+app.listen(PORT, () => {
+  console.log(`🛡️ BuzzShield PISP running on port ${PORT}`);
+  console.log(`💰 Merchant wallet: ${process.env.MERCHANT_WALLET}`);
+  console.log(`🔗 Network: Kite Testnet (Chain ID 2368)`);
+});
