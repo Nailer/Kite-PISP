@@ -41,4 +41,8 @@ async function settlePayment(xPaymentHeader) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ payment: xPaymentHeader }),
-});
+  });
+  const result = await response.json();
+  return { success: response.ok, data: result };
+}
+
